@@ -4,6 +4,8 @@ let mysteryNum;
 let count;
 let rep = document.getElementById("response");
 let isPlaying = true;
+let attempts = [];
+let scores = [];
 
 function generateNum() {
   return Math.floor(Math.random() * 100 + 1);
@@ -18,32 +20,44 @@ function hide(elementId) {
 }
 
 function newGame() {
+  // Reset variables
   mysteryNum = generateNum();
   count = 0;
   numGuesses = maxGuesses;
   isPlaying = true;
+  attempts = [];
+  // Reset interface
+  document.getElementById("high-score").innerHTML = `High Score: ${Math.max(
+    ...scores
+  )}`;
   document.getElementById("guess").value = "";
-  document.getElementById("h2").innerText = "Let's Start!";
   document.getElementById(
     "remaining"
   ).innerHTML = `You have ${numGuesses} turns in total.`;
+  document.getElementById("attempts").innerHTML = " ";
   hide("response");
   hide("success");
-  console.log(mysteryNum);
 }
 
 function guess() {
   let num = document.getElementById("guess").value;
-  document.getElementById("h2").innerText = "Your guess was " + num;
+  attempts.push(num);
   show("response");
   rep.style.display = "block";
+
   if (isPlaying) {
-    if (numGuesses > 0 && isPlaying) {
+    let node = document.createElement("LI");
+    let textnode = document.createTextNode(num + " ");
+    node.appendChild(textnode);
+    document.getElementById("attempts").appendChild(node);
+
+    if (numGuesses > 0) {
       numGuesses -= 1;
       if (num == mysteryNum) {
         isPlaying = false;
         hide("response");
         show("success");
+        scores.push(numGuesses);
       } else if (num > mysteryNum) {
         rep.innerHTML = "Your guess is too HIGH. Try again!";
       } else {
@@ -57,6 +71,7 @@ function guess() {
     hide("success");
     rep.innerHTML = 'The game is over. Press "New Game"!';
   }
+
   document.getElementById("guess").value = "";
   document.getElementById(
     "remaining"

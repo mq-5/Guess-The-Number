@@ -19,8 +19,8 @@
   </head>
   <body>
     <h1 class="mt-3">guess the number</h1>
+    <h2 id="high-score"></h2>
     <div class="container">
-      <h2 id="h2">Let's Start!</h2>
       <h4 id="remaining"></h4>
       <input
         type="number"
@@ -46,6 +46,8 @@
           New Game
         </button>
       </div>
+      <h5>Attempts:</h5>
+      <ul id="attempts"></ul>
       <div class="alert alert-success my-3" id="success" role="alert">
         Congratulation!! You are correct.
       </div>
